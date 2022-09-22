@@ -8,6 +8,7 @@ import time
 
 class Neuron():
     def __init__(self, name):
+        #pre-set parameters
         self.name = name
         self.I = 200
         self.dt = 0.1
@@ -22,14 +23,16 @@ class Neuron():
         self.V_hist = []
         self.V_hist.append(-75.)
         self.alive = True
-        self.time_alive()
+        self.time_alive() #not ideal but I want to keep track of neuron "lifespans"
     
+    #func to calc V
     def calc_V(self):
         dvdt = (-(self.V - self.V_reset) + (self.I/self.g_L))/self.tau_m
         self.V = self.V_hist[-1] + dvdt * self.dt
         self.V_hist.append(self.V)
         return self.V
 
+    #func to update membrane potential
     def updateMembranePotential(self):
         if self.V > self.V_th:
             V = self.V_reset
@@ -38,6 +41,7 @@ class Neuron():
         else:
             V = self.calc_V()
 
+    #func to check whether to keep or kill the neuron. Idea was to compute in real time (still not ideal) and not precompute data.
     def time_alive(self):
         while self.alive == True:
             curr_time = time.time()
@@ -55,6 +59,7 @@ class Neuron():
             print(self.V_hist[-1])
             #wait for time to reach +100ms from curr_time
             amt = 0.1 - (time.time()-curr_time)
+            #throttle the program based on computing time
             time.sleep(amt)
         
         plt.plot(self.V_hist)
