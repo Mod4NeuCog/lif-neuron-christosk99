@@ -1,9 +1,7 @@
 import collections
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.animation as anim
 import time
-import multiprocessing
 
 
 #TODO:  model refractory period with function (1ms/0.001s), make neurons spike correctly, allow for multineuron connections.
